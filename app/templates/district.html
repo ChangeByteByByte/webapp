@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="district-container">
+    <h1>{{ district.kommune }}</h1>
+    <p class="subtitle">{{ district.bundesland }} - {{ district.admin_type }}</p>
+
+    <div class="vulnerability-indices">
+        <div class="index-card">
+            <h2>Climate Change Impact</h2>
+            <div class="percentile">
+                <span class="number">{{ "%.1f"|format(climate_percentile) }}%</span>
+                <span class="label">Relative Percentage</span>
+            </div>
+        </div>
+        <div class="index-card">
+            <h2>Socioeconomic Vulnerability</h2>
+            <div class="percentile">
+                <span class="number">{{ "%.1f"|format(socio_percentile) }}%</span>
+                <span class="label">Relative Percentage</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="data-grid">
+        <div class="climate-data">
+            <h2>Climate Factors</h2>
+            <div class="data-item">
+                <span class="label">Heavy Rain Days</span>
+                <span class="value">
+                    Now: {{ "%.1f"|format(district.heavy_rain_current) }}
+                    → Future: {{ "%.1f"|format(district.heavy_rain_current + district.heavy_rain_future) }}
+                </span>
+            </div>
+            <div class="data-item">
+                <span class="label">Dry Days</span>
+                <span class="value">
+                    Now: {{ "%.1f"|format(district.dry_days_current) }}
+                    → Future: {{ "%.1f"|format(district.dry_days_current + district.dry_days_future) }}
+                </span>
+            </div>
+            <div class="data-item">
+                <span class="label">Hot Days</span>
+                <span class="value">
+                    Now: {{ "%.1f"|format(district.hot_days_current) }}
+                    → Future: {{ "%.1f"|format(district.hot_days_current + district.hot_days_future) }}
+                </span>
+            </div>
+            <div class="data-item">
+                <span class="label">Humid Days</span>
+                <span class="value">
+                    Now: {{ "%.1f"|format(district.humid_days_current) }}
+                    → Future: {{ "%.1f"|format(district.humid_days_current + district.humid_days_future) }}
+                </span>
+            </div>
+            <div class="data-item">
+                <span class="label">Tropical Nights</span>
+                <span class="value">
+                    Now: {{ "%.1f"|format(0.4) }}
+                    → Future: {{ "%.1f"|format(0.4 + 3.8) }}
+                </span>
+            </div>
+        </div>
+        <div class="socioeconomic-data">
+            <h2>Socioeconomic Factors</h2>
+            <div class="data-item">
+                <span class="label">Low-income Households</span>
+                <span class="value">{{ "%.1f"|format(district.low_income) }}%</span>
+            </div>
+            <div class="data-item">
+                <span class="label">General Funds</span>
+                <span class="value">{{ "%.0f"|format(1556) }}€ per Resident</span>
+            </div>
+            <div class="data-item">
+                <span class="label">Population Aged 65+</span>
+                <span class="value">{{ "%.1f"|format(district.elderly_percentage) }}%</span>
+            </div>
+            <div class="data-item">
+                <span class="label">Long-term Unemployment Rate</span>
+                <span class="value">{{ "%.1f"|format(district.long_term_unemployment) }}%</span>
+            </div>
+            <div class="data-item">
+                <span class="label">Core Budget Debt</span>
+                <span class="value">{{ "%.0f"|format(district.debt) }}€ per Resident</span>
+            </div>
+        </div>
+    </div>
+
+    {% if recommendations %}
+    <div class="recommendations">
+        <h2>Policy Recommendations</h2>
+        
+        {% if recommendations.climate %}
+        <div class="recommendation-section">
+            <h3>Climate Adaptation Measures</h3>
+            <ul>
+                {% for rec in recommendations.climate %}
+                <li>{{ rec }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+
+        {% if recommendations.socioeconomic %}
+        <div class="recommendation-section">
+            <h3>Socioeconomic Measures</h3>
+            <ul>
+                {% for rec in recommendations.socioeconomic %}
+                <li>{{ rec }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

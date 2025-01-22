@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="search-container">
+    <h1>Find Your Municipality</h1>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search municipality...">
+        <div id="suggestions" class="suggestions"></div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
+{% endblock %}
